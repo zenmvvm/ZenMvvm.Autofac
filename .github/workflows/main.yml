@@ -109,18 +109,18 @@ jobs:
               })
           github-token: ${{github.token}}
 
-prerelease:
-    needs: build
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v2.0.6
-      with:
-        name: nupkg
-        path: nupkg
-    - name: Publish Nuget to GitHub Feed
-      run: dotnet nuget push ./nupkg/*.nupkg -k $GITHUB_TOKEN -s $GITHUB_FEED --skip-duplicate
+  prerelease:
+      needs: build
+      if: github.ref == 'refs/heads/develop'
+      runs-on: ubuntu-latest
+      steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2.0.6
+        with:
+          name: nupkg
+          path: nupkg
+      - name: Publish Nuget to GitHub Feed
+        run: dotnet nuget push ./nupkg/*.nupkg -k $GITHUB_TOKEN -s $GITHUB_FEED --skip-duplicate
 
   deploy:
     needs: build
