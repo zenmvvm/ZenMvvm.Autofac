@@ -16,8 +16,10 @@
         <PackageTags>ZenMvvm.Autofac</PackageTags> <!-- separate with ; -->
         <PackageReleaseNotes>https://github.com/zenmvvm/ZenMvvm.Autofac/releases</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/zenmvvm/ZenMvvm.Autofac</PackageProjectUrl>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <!-- Choose either PackageLicenseExpression or PackageLicenseFile (but not both) -->
+        <!-- <PackageLicenseExpression>MIT</PackageLicenseExpression> -->
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/zenmvvm/ZenMvvm.Autofac</RepositoryUrl>      
         <PackageIcon>ZenMvvm.Autofac-64x64.png</PackageIcon> <!--See itemgroup which points to file-->
@@ -29,10 +31,8 @@
         <IncludeSymbols>true</IncludeSymbols>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="../../art/ZenMvvm.Autofac-64x64.png">
-          <Pack>true</Pack>
-          <PackagePath>$(PackageIconUrl)</PackagePath>
-        </None>
+        <None Include="../../art/ZenMvvm.Autofac-64x64.png" Pack="true" PackagePath="$(PackageIconUrl)" />
+        <None Include="../../LICENSE.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
