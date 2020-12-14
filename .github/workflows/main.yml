@@ -157,10 +157,16 @@ jobs:
         run: |
           git config --global user.email $GITHUB_USER_EMAIL
           git config --global user.name $GITHUB_USER
-          rm -f ./coverage/*.*
-          git add --force ./coverage/badge_linecoverage.svg
-          git add --force ./coverage/index.html
-          git commit -m "Remove old coverage badge"
+          
+          if [ -d "./coverage" ]; then 
+            rm -f ./coverage/*.*
+            git add --force ./coverage/badge_linecoverage.svg
+            git add --force ./coverage/index.html
+            git commit -m "Remove old coverage badge"
+          else
+            mkdir coverage
+          fi
+          
           cp ./cov/badge_linecoverage.svg ./coverage/badge_linecoverage.svg
           cp ./cov/index.html ./coverage/index.html
           git add --force ./coverage/*.*
