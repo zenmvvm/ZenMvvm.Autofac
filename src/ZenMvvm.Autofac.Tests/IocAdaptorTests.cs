@@ -1,7 +1,8 @@
-﻿using Moq;
-using Xunit;
-using SmartDi;
+﻿using Xunit;
+using Autofac;
 
+// Note - Autofac uses sealed classes which make mocking with Moq impossible
+// therefore tests are also testing Autofac code
 namespace ZenMvvm.Autofac.Tests
 {
     public class IocAdaptorTests
@@ -9,9 +10,7 @@ namespace ZenMvvm.Autofac.Tests
         [Fact]
         public void Constructor_SetsContainer()
         {
-            var containerMock = new Mock<IDiContainer>();
-
-            var adaptor = new IocAdaptor(containerMock.Object);
+            var adaptor = new IocAdaptor(new ContainerBuilder());
 
             Assert.NotNull(adaptor.container);
         }
@@ -19,12 +18,12 @@ namespace ZenMvvm.Autofac.Tests
         [Fact]
         public void Resolve_CallsContainerResolve()
         {
-            var containerMock = new Mock<IDiContainer>();
-            var adaptor = new IocAdaptor(containerMock.Object);
+            var testObject = new object();
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(testObject);
+            var adaptor = new IocAdaptor(builder);
 
-            adaptor.Resolve(typeof(object));
-
-            containerMock.Verify(c => c.Resolve(typeof(object)));
+            Assert.Equal(testObject, adaptor.Resolve(typeof(object)));
         }
     }
 }

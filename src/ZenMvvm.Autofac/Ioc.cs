@@ -1,5 +1,6 @@
 ﻿using System;
-using SmartDi;
+using Autofac;
+using Autofac.Builder;
 
 namespace ZenMvvm
 {
@@ -9,46 +10,26 @@ namespace ZenMvvm
     public static class Ioc
     {
         /// <summary>
-        /// Returns a <see cref="SmartDi.IDiContainer"/>
+        /// Returns a <see cref="Autofac.IContainer"/>
         /// </summary>
-        public static IDiContainer Container { get; internal set; }
+        public static IContainer Container { get; internal set; }
 
         /// <summary>
         /// Initializes the <see cref="ViewModelLocator"/> with the given
-        ///  <paramref name="container"/> and registers <see cref="INavigationService"/>
+        ///  <paramref name="containerBuilder"/> and registers <see cref="INavigationService"/>
         ///  for Mvvm navigation.
         /// </summary>
-        /// <param name="container"></param>
-        public static void Init(IDiContainer container)
+        /// <param name="containerBuilder"></param>
+        public static void Init(ContainerBuilder containerBuilder, ContainerBuildOptions options = ContainerBuildOptions.None)
         {
-            container
-                .Register<INavigationService, NavigationService>(Type.EmptyTypes);
-            Container = container;
-            ViewModelLocator.Ioc = new IocAdaptor(Container);
-        }
+            containerBuilder
+                .RegisterType<NavigationService>()
+                .As<INavigationService>()
+                .UsingConstructor(Type.EmptyTypes);
 
-        /// <summary>
-        /// Initializes the <see cref="ViewModelLocator"/> with a default 
-        /// container and registers <see cref="INavigationService"/>
-        ///  for Mvvm navigation.
-        /// </summary>
-        public static void Init()
-            => Init(new DiContainer());
-
-        /// <summary>
-        /// Initializes the <see cref="ViewModelLocator"/> with a container 
-        /// configured with provided <see cref="ContainerOptions"/> and registers
-        /// <see cref="INavigationService"/> for Mvvm navigation.
-        /// </summary>
-        public static void Init(ContainerOptions settings)
-            => Init(new DiContainer(settings));
-
-        /// <summary>
-        /// Initializes the <see cref="ViewModelLocator"/> with a container 
-        /// configured with provided configuration and registers
-        /// <see cref="INavigationService"/> for Mvvm navigation.
-        /// </summary>
-        public static void Init(Action<ContainerOptions> configureSettings)
-            => Init(new DiContainer(configureSettings));
+            var iocAdaptor = new IocAdaptor(containerBuilder, options);
+            Container = iocAdaptor.container;
+            ViewModelLocator.Ioc = iocAdaptor;
+        }        
     }
 }

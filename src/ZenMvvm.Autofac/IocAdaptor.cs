@@ -1,5 +1,6 @@
 ﻿using System;
-using SmartDi;
+using Autofac;
+using Autofac.Builder;
 
 namespace ZenMvvm
 {
@@ -8,16 +9,16 @@ namespace ZenMvvm
     /// </summary>
     public class IocAdaptor : IIoc
     {
-        internal readonly IDiContainer container;
+        internal readonly IContainer container;
 
         /// <summary>
         /// Construct the <see cref="IocAdaptor"/> from the provided
-        ///  see <paramref name="container"/>
+        ///  see <paramref name="containerBuilder"/>
         /// </summary>
-        /// <param name="container"></param>
-        public IocAdaptor(IDiContainer container)
+        /// <param name="containerBuilder"></param>
+        public IocAdaptor(ContainerBuilder containerBuilder, ContainerBuildOptions options = ContainerBuildOptions.None)
         {
-            this.container = container;
+            this.container = containerBuilder.Build(options);
         }
 
         /// <summary>
