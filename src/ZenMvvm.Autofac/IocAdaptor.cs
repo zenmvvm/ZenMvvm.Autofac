@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Autofac.Builder;
 
 namespace ZenMvvm
 {
@@ -15,9 +16,9 @@ namespace ZenMvvm
         ///  see <paramref name="containerBuilder"/>
         /// </summary>
         /// <param name="containerBuilder"></param>
-        public IocAdaptor(ContainerBuilder containerBuilder)
+        public IocAdaptor(ContainerBuilder containerBuilder, ContainerBuildOptions options = ContainerBuildOptions.None)
         {
-            this.container = containerBuilder.Build();
+            this.container = containerBuilder.Build(options);
         }
 
         /// <summary>

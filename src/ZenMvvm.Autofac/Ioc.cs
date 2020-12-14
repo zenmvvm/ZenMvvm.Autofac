@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Autofac.Builder;
 
 namespace ZenMvvm
 {
@@ -19,16 +20,16 @@ namespace ZenMvvm
         ///  for Mvvm navigation.
         /// </summary>
         /// <param name="containerBuilder"></param>
-        public static void Init(ContainerBuilder containerBuilder)
+        public static void Init(ContainerBuilder containerBuilder, ContainerBuildOptions options = ContainerBuildOptions.None)
         {
             containerBuilder
                 .RegisterType<NavigationService>()
                 .As<INavigationService>()
                 .UsingConstructor(Type.EmptyTypes);
 
-            var iocAdaptor = new IocAdaptor(containerBuilder);
+            var iocAdaptor = new IocAdaptor(containerBuilder, options);
             Container = iocAdaptor.container;
             ViewModelLocator.Ioc = iocAdaptor;
-        }
+        }        
     }
 }
